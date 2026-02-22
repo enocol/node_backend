@@ -1,8 +1,8 @@
 import express from "express"
 import dotenv from "dotenv"
-import { initdb } from "./config/db.js"
+import { initdb } from "./src/config/db.js"
 
-import transactionRoutes from "./routes/transactionRoutes.js"
+import transactionRoutes from "./src/routes/transactionRoutes.js"
 
 dotenv.config()
 const app = express()
