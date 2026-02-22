@@ -63,5 +63,6 @@ const styles = StyleSheet.create({
   link: {
     backgroundColor: "red", width: "100%",
     height: 40,
+    
   }
 })
