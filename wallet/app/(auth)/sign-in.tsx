@@ -2,7 +2,7 @@ import { useSignIn } from '@clerk/clerk-expo'
 import type { EmailCodeFactor } from '@clerk/types'
 import { Link, useRouter } from 'expo-router'
 import * as React from 'react'
-import { Pressable, StyleSheet, TextInput, View, Text } from 'react-native'
+import { Pressable, StyleSheet, TextInput, View, Text, Image, Platform } from 'react-native'
 import {appstyles} from "@/assets/styles/auth.styles"
 
 export default function Page() {
@@ -152,6 +152,8 @@ export default function Page() {
       <Text  style={styles.title}>
         Sign in
       </Text>
+
+      <Image style={styles.image} source={require("@/assets/images/revenue-i2.png")} />
       <Text style={styles.label}>Email address</Text>
       <TextInput
         style={styles.input}
@@ -186,16 +188,12 @@ export default function Page() {
         {errorMessage ? (<Text style={styles.errorText}>{errorMessage}</Text>) : null}
    
       <View style={styles.linkContainer}>
-        <Text>Don't have an account? </Text>
+        <Text style={styles.linkText}>Don't have an account? </Text>
         <Link href="/sign-up">
-          <Text >Sign up</Text>
+          <Text style={styles.linkButtonText}>Sign up</Text>
         </Link>
       </View>
-      <View>
-        <Link href={"/"}><Text>Home</Text></Link>
-
-
-      </View>
+      
     </View>
   )
 }
@@ -204,12 +202,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    gap: 12,
+    gap: 10,
+    backgroundColor: 'red',
+    paddingTop: 100
   },
   title: {
-    marginBottom: 8,
-    color: "blue",
+    color: "white",
     fontSize: 30,
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   description: {
     fontSize: 14,
@@ -218,7 +219,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: '600',
-    fontSize: 14,
+    fontSize: 20,
+    color: 'white',
   },
   input: {
     borderWidth: 1,
@@ -229,7 +231,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   button: {
-    backgroundColor: '#0a7ea4',
+    backgroundColor: 'black',
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
@@ -257,6 +259,27 @@ const styles = StyleSheet.create({
     color: "#4A148C",
     marginLeft: 8,
     fontSize: 14,
+  },
+
+  image : {
+    width: '100%',
+    height: "20%",
+    resizeMode: 'contain',
+    marginBottom: 5,
+    
+  },
+
+
+  linkText : {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '600',
+  },
+
+  linkButtonText: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '600',
   },
 
 

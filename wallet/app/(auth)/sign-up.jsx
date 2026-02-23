@@ -2,7 +2,7 @@
 import { useSignUp } from '@clerk/clerk-expo'
 import { Link, useRouter } from 'expo-router'
 import * as React from 'react'
-import { Pressable, StyleSheet, TextInput, View, Text } from 'react-native'
+import { Pressable, StyleSheet, TextInput, View, Text, Image} from 'react-native'
 import {appstyles} from "@/assets/styles/auth.styles.js"
 
 export default function Page() {
@@ -121,8 +121,10 @@ export default function Page() {
   return (
     <View style={styles.container}>
       <Text type="title" style={styles.title}>
-        Sign up
+        Register
       </Text>
+
+      <Image source={require('@/assets/images/revenue-i1.png')} style={styles.image} />
       <Text style={styles.label}>Email address</Text>
       <TextInput
         style={styles.input}
@@ -158,9 +160,9 @@ export default function Page() {
         {errorMessage ? (<Text style={appstyles.errorText}>{errorMessage}</Text>) : null}
       </View>
       <View style={styles.linkContainer}>
-        <Text>Have an account? </Text>
+        <Text style={styles.linkText}>Have an account? </Text>
         <Link href="/sign-in">
-          <Text type="link">Sign in</Text>
+          <Text style={styles.linkButtonText}>Sign in</Text>
         </Link>
       </View>
     </View>
@@ -171,19 +173,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    gap: 12,
+    gap: 10,
+    backgroundColor: 'red',
+    paddingTop: 100
   },
   title: {
-    marginBottom: 8,
+    color: "white",
+    fontSize: 30,
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   description: {
     fontSize: 14,
     marginBottom: 16,
     opacity: 0.8,
   },
-  label: {
+   label: {
     fontWeight: '600',
-    fontSize: 14,
+    fontSize: 20,
+    color: 'white',
   },
   input: {
     borderWidth: 1,
@@ -194,7 +202,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   button: {
-    backgroundColor: '#0a7ea4',
+    backgroundColor: 'black',
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
@@ -207,21 +215,45 @@ const styles = StyleSheet.create({
   buttonDisabled: {
     opacity: 0.5,
   },
-  buttonText: {
+ buttonText: {
     color: '#fff',
     fontWeight: '600',
   },
-  linkContainer: {
+
+   linkContainer: {
     flexDirection: 'row',
     gap: 4,
     marginTop: 12,
     alignItems: 'center',
   },
 
+
 //   errorText: {
 //   color: '#ff3b30',
 //   marginBottom: 10,
 //   textAlign: 'center',
 // },
+
+  image : {
+    width: '100%',
+    height: "20%",
+    resizeMode: 'contain',
+    marginBottom: 5,
+    
+  },
+
+linkText : {
+    color: '#fff',
+    fontSize: 15,
+     fontWeight: '600',
+    
+  },
+
+  linkButtonText: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '600',
+  },
+
 
 })
