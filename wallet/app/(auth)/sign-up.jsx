@@ -3,8 +3,7 @@ import { useSignUp } from '@clerk/clerk-expo'
 import { Link, useRouter } from 'expo-router'
 import * as React from 'react'
 import { Pressable, StyleSheet, TextInput, View, Text, Image} from 'react-native'
-import {appstyles} from "@/assets/styles/auth.styles.js"
-import AppText from "@/app/components/appText"
+import { MaterialIcons } from '@expo/vector-icons'
 
 export default function Page() {
   const { isLoaded, signUp, setActive } = useSignUp()
@@ -53,9 +52,11 @@ export default function Page() {
 
       if (err?.errors && err.errors.length > 0) {
         message = err.errors[0].longMessage || err.errors[0].message
+
+        setErrorMessage(message)
   }
 
-  setErrorMessage(message)
+  
 }
   }
 
@@ -106,6 +107,18 @@ export default function Page() {
   if (pendingVerification) {
     return (
       <View style={styles.container}>
+
+        {errorMessage ?
+           (<View style={styles.erroMessageContainer}>
+             <MaterialIcons
+                name="error"
+                size={18}
+                color="red"
+                style={{ marginRight: 6 }}
+              />
+            <Text style={styles.errorText}>{errorMessage}</Text>
+          </View>) : null}
+
         <Text type="title" style={styles.title}>
           Verify your email
         </Text>
@@ -128,15 +141,28 @@ export default function Page() {
         </Pressable>
 
 
-        {errorMessage ? (
-                  <View style={styles.erroMessageContainer}><Text style={styles.errorText}>{errorMessage}</Text></View>
-                ) : null}
+        
       </View>
     )
   }
 
   return (
     <View style={styles.container}>
+
+  {errorMessage ?
+      (<View style={styles.erroMessageContainer}>
+         <MaterialIcons
+            name="error"
+            size={18}
+            color="red"
+            style={{ marginRight: 6 }}
+          />
+        <Text style={styles.errorText}>{errorMessage}</Text>
+      </View>)
+       : null
+  }
+
+
       <Text type="title" style={styles.title}>
         Register an account
       </Text>
@@ -172,12 +198,9 @@ export default function Page() {
       >
         <Text style={styles.buttonText}>Continue</Text>
       </Pressable>
-
-      
-        {errorMessage ? (<View style={styles.erroMessageContainer}><Text style={appstyles.errorText}>{errorMessage}</Text></View>) : null}
      
       <View style={styles.linkContainer}>
-        <Text style={styles.linkText}>Have an account? </Text>
+        <Text style={styles.linkText}>Already have an account? </Text>
         <Link href="/sign-in">
           <Text style={styles.linkButtonText}>Sign in</Text>
         </Link>
@@ -191,25 +214,26 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     gap: 10,
-    backgroundColor: 'orange',
-    paddingTop: 100
   },
+
   title: {
-    color: "white",
     fontSize: 30,
     textAlign: 'center',
     fontWeight: 'bold',
   },
+
   description: {
     fontSize: 14,
     marginBottom: 16,
     opacity: 0.8,
   },
+
    label: {
     fontWeight: '600',
     fontSize: 20,
-    color: 'white',
+    
   },
+
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
@@ -218,6 +242,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     backgroundColor: '#fff',
   },
+
   button: {
     backgroundColor: 'black',
     paddingVertical: 12,
@@ -226,12 +251,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 8,
   },
+
   buttonPressed: {
     opacity: 0.7,
   },
   buttonDisabled: {
     opacity: 0.5,
   },
+  
  buttonText: {
     color: '#fff',
     fontWeight: '600',
@@ -244,7 +271,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-
  errorText: {
     color: "#4A148C",
     fontSize: 14,
@@ -252,21 +278,19 @@ const styles = StyleSheet.create({
 
   image : {
     width: '100%',
-    height: "20%",
+    height: "300",
     resizeMode: 'contain',
     marginBottom: 5,
     
   },
 
 linkText : {
-    color: '#fff',
-    fontSize: 15,
-     fontWeight: '600',
-    
+  fontSize: 15,
+  fontWeight: '600',
+  
   },
 
   linkButtonText: {
-    color: '#fff',
     fontSize: 15,
     fontWeight: '600',
   },
@@ -274,13 +298,14 @@ linkText : {
     erroMessageContainer: {
     height: "auto",
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F8D7DA',
     marginTop: 8,
     borderLeftWidth: 25,
     borderLeftColor: '#F44336',
-    padding: 5,
-  }
+    flexDirection: "row",
+    backgroundColor: "#ffe5e5", // optional soft red background
+    padding: 10,
+    borderRadius: 8,
+  },
 
 
 })

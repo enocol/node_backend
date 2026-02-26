@@ -4,6 +4,8 @@ import { Link, useRouter } from 'expo-router'
 import * as React from 'react'
 import { Pressable, StyleSheet, TextInput, View, Text, Image, Platform } from 'react-native'
 import {appstyles} from "@/assets/styles/auth.styles"
+import { MaterialIcons } from "@expo/vector-icons";
+
 
 export default function Page() {
   const { signIn, setActive, isLoaded } = useSignIn()
@@ -127,6 +129,9 @@ export default function Page() {
   if (showEmailCode) {
     return (
       <View style={styles.container}>
+        {errorMessage ? (<View style={styles.erroMessageContainer}>
+          
+          <Text style={styles.errorText}>{errorMessage}</Text></View>) : null}
         <Text  style={styles.title}>
           Verify your email
         </Text>
@@ -147,16 +152,25 @@ export default function Page() {
         >
           <Text style={styles.buttonText}>Verify</Text>
         </Pressable>
-        
-            {errorMessage ? (<View style={styles.erroMessageContainer}><Text style={styles.errorText}>{errorMessage}</Text></View>) : null}
-         
-     
       </View>
     )
   }
 
   return (
     <View style={styles.container}>
+     {errorMessage ?
+      (<View style={styles.erroMessageContainer}>
+         <View style={styles.errorIconContainer}>
+          <MaterialIcons
+            name="error"
+            size={18}
+            color="red"
+            style={{ marginRight: 6 }}
+          />
+        </View>
+        <Text style={styles.errorText}>{errorMessage}</Text>
+      </View>) : null}
+      
       <Text  style={styles.title}>
         Sign in to your account
       </Text>
@@ -193,7 +207,7 @@ export default function Page() {
         <Text style={styles.buttonText}>Sign in</Text>
       </Pressable>
 
-          {errorMessage ? (<View style={styles.erroMessageContainer}><Text style={styles.errorText}>{errorMessage}</Text></View>) : null}
+         
 
       <View style={styles.linkContainer}>
         <Text style={styles.linkText}>Don't have an account? </Text>
@@ -211,15 +225,14 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     gap: 10,
-    backgroundColor: 'orange',
-    paddingTop: 100
+    
   },
   title: {
-    color: "white",
     fontSize: 30,
     textAlign: 'center',
     fontWeight: 'bold',
   },
+
   description: {
     fontSize: 14,
     marginBottom: 16,
@@ -228,8 +241,8 @@ const styles = StyleSheet.create({
   label: {
     fontWeight: '600',
     fontSize: 20,
-    color: 'white',
   },
+
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
@@ -238,6 +251,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     backgroundColor: '#fff',
   },
+
   button: {
     backgroundColor: 'black',
     paddingVertical: 12,
@@ -246,9 +260,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 8,
   },
+
   buttonPressed: {
     opacity: 0.7,
   },
+
   buttonDisabled: {
     opacity: 0.5,
   },
@@ -256,6 +272,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
   },
+
   linkContainer: {
     flexDirection: 'row',
     gap: 4,
@@ -270,7 +287,7 @@ const styles = StyleSheet.create({
 
   image : {
     width: '100%',
-    height: "20%",
+    height: 300,
     resizeMode: 'contain',
     marginBottom: 5,
     
@@ -278,13 +295,11 @@ const styles = StyleSheet.create({
 
 
   linkText : {
-    color: '#fff',
     fontSize: 15,
     fontWeight: '600',
   },
 
   linkButtonText: {
-    color: '#fff',
     fontSize: 15,
     fontWeight: '600',
   },
@@ -292,12 +307,21 @@ const styles = StyleSheet.create({
   erroMessageContainer: {
     height: "auto",
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F8D7DA',
     marginTop: 8,
     borderLeftWidth: 25,
     borderLeftColor: '#F44336',
-    padding: 5,
-  }
+    flexDirection: "row",
+    backgroundColor: "#ffe5e5", // optional soft red background
+    padding: 10,
+    borderRadius: 8,
+  },
+
+  errorIconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingRight: 6,
+    marginLeft: 10, // Adjust this value to position the icon closer to the left border
+  },
+  
 
 })
