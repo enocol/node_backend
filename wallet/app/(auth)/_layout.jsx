@@ -14,7 +14,7 @@ function AuthRoutesLayout() {
    return (
     <Stack screenOptions={{
       headerBackTitleVisible: false, // removes "Sign-in" text
-      headerTitle: '',
+      headerTitle: "", // removes the header title
       headerTransparent: true, // makes header transparent on iOS
       headerStyle: {
         backgroundColor: 'transparent', // makes the header background transparent
@@ -23,11 +23,11 @@ function AuthRoutesLayout() {
          
       },
       headerBackground: () => null, // removes the header background
-      headerLeft: Platform.OS === 'ios' ? () => (
-        <Pressable onPress={() => router.back()} style={styles.backArrow}>
-          <MaterialIcons name="arrow-back" size={20} color="black"  />
-        </Pressable>
-      ) : undefined,
+      // headerLeft: Platform.OS === 'ios' ? () => (
+      //   <Pressable onPress={() => router.back()} style={styles.backArrow}>
+      //     <MaterialIcons name="arrow-back" size={20} color="black"  />
+      //   </Pressable>
+      // ) : undefined,
     }}>
       <Stack.Screen name="sign-in" />
       <Stack.Screen name="sign-up" />

@@ -4,6 +4,7 @@ import { Link, useRouter } from 'expo-router'
 import * as React from 'react'
 import { Pressable, StyleSheet, TextInput, View, Text, Image} from 'react-native'
 import {appstyles} from "@/assets/styles/auth.styles.js"
+import AppText from "@/app/components/appText"
 
 export default function Page() {
   const { isLoaded, signUp, setActive } = useSignUp()
@@ -14,6 +15,20 @@ export default function Page() {
   const [pendingVerification, setPendingVerification] = React.useState(false)
   const [code, setCode] = React.useState('')
   const [errorMessage, setErrorMessage] = React.useState('')
+
+
+  // Clear error message after 5 seconds
+
+        React.useEffect(() => {
+         if (errorMessage) {
+       
+           const timer = setTimeout(() => {
+             setErrorMessage('');
+           }, 5000); // 4 seconds
+       
+           return () => clearTimeout(timer); // cleanup
+         }
+       }, [errorMessage]);
 
 
   // Handle submission of sign-up form
@@ -84,6 +99,8 @@ export default function Page() {
 
        setErrorMessage(message)
 }
+
+ 
   }
 
   if (pendingVerification) {
@@ -111,8 +128,8 @@ export default function Page() {
         </Pressable>
 
 
-              {errorMessage ? (
-                  <Text style={styles.errorText}>{errorMessage}</Text>
+        {errorMessage ? (
+                  <View style={styles.erroMessageContainer}><Text style={styles.errorText}>{errorMessage}</Text></View>
                 ) : null}
       </View>
     )
@@ -121,7 +138,7 @@ export default function Page() {
   return (
     <View style={styles.container}>
       <Text type="title" style={styles.title}>
-        Register
+        Register an account
       </Text>
 
       <Image source={require('@/assets/images/revenue-i1.png')} style={styles.image} />
@@ -156,9 +173,9 @@ export default function Page() {
         <Text style={styles.buttonText}>Continue</Text>
       </Pressable>
 
-      <View>
-        {errorMessage ? (<Text style={appstyles.errorText}>{errorMessage}</Text>) : null}
-      </View>
+      
+        {errorMessage ? (<View style={styles.erroMessageContainer}><Text style={appstyles.errorText}>{errorMessage}</Text></View>) : null}
+     
       <View style={styles.linkContainer}>
         <Text style={styles.linkText}>Have an account? </Text>
         <Link href="/sign-in">
@@ -174,7 +191,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     gap: 10,
-    backgroundColor: 'red',
+    backgroundColor: 'orange',
     paddingTop: 100
   },
   title: {
@@ -228,11 +245,10 @@ const styles = StyleSheet.create({
   },
 
 
-//   errorText: {
-//   color: '#ff3b30',
-//   marginBottom: 10,
-//   textAlign: 'center',
-// },
+ errorText: {
+    color: "#4A148C",
+    fontSize: 14,
+  },
 
   image : {
     width: '100%',
@@ -254,6 +270,17 @@ linkText : {
     fontSize: 15,
     fontWeight: '600',
   },
+
+    erroMessageContainer: {
+    height: "auto",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F8D7DA',
+    marginTop: 8,
+    borderLeftWidth: 25,
+    borderLeftColor: '#F44336',
+    padding: 5,
+  }
 
 
 })

@@ -1,10 +1,11 @@
-import SignOutButton from '../components/sign-out-button'
-import AppText from '../components/appText'
+import SignOutButton from './components/sign-out-button'
+import AppText from './components/appText'
 
 import { SignedIn, SignedOut, useSession, useUser } from '@clerk/clerk-expo'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { StyleSheet, Text, View, Pressable, Image } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Page() {
   const { user } = useUser()
@@ -13,17 +14,19 @@ export default function Page() {
   // If your user isn't appearing as signed in,
   // it's possible they have session tasks to complete.
   // Learn more: https://clerk.com/docs/guides/configure/session-tasks
-  const { session } = useSession()
+  // const { session } = useSession()
   // console.log(session?.currentTask)
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      
     
       {/* Show the sign-in and sign-up buttons when the user is signed out */}
-     <View style={styles.container1}>
-
-      <Image source={require('../../assets/images/revenue-i4.png')} style={styles.image} />
+      <View style={styles.logoimageContainer}>
+        <Image source={require('@/assets/images/wallet.png')} style={styles.image} />
+      </View>
        <SignedOut>
+        <Image source={require('@/assets/images/revenue-i4.png')} style={styles.image} />
         <Pressable style={styles.signinButton} onPress={() => router.push('/sign-in')}>
          <AppText title="Sign in" />
         </Pressable>
@@ -32,32 +35,35 @@ export default function Page() {
           <AppText title="Register"  />
         </Pressable>
       </SignedOut>
-      {/* Show the sign-out button when the user is signed in */}
-      <SignedIn>
-        <Text>Hello {user?.emailAddresses[0].emailAddress}</Text>
-        <SignOutButton />
-      </SignedIn>
 
+      <View style={styles.signedInContainer}>
+        <SignedIn>
+          <Text>Hello {user?.emailAddresses[0].emailAddress}</Text>
+          <SignOutButton />
+        </SignedIn>
+      </View>
 
-     </View>
-    </View>
+     
+
+   
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'white',
+    alignItems: 'center',
     flex: 1,
-    backgroundColor: 'red',
-    paddingTop: 200,
+    gap: 20,
+   
   },
 
-  container1: {
-    flex: 0.5,
-    width: '100%',
-    height: '70%',
-    gap: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+  signedInContainer: {
+   position: 'absolute',
+   top: 50,
+   left: 20,
+   flex: 1,
     
   },
 
@@ -96,10 +102,15 @@ const styles = StyleSheet.create({
 
   image: {
     width: '100%',
-    height: '80%',
+    height: 200,
     resizeMode: 'contain',
-  }
+  },
 
+  logoimageContainer: {
+    width: '100%',
+    backgroundColor: 'orange',
+   
+   
+  },
 
- 
 })

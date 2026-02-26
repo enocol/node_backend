@@ -39,8 +39,7 @@ export default function Page() {
               console.log(session?.currentTask)
               return
             }
-
-            router.replace('/')
+              router.replace("/");  // Redirect to the home page after successful sign-in
           },
         })
       } else if (signInAttempt.status === 'needs_second_factor') {
@@ -96,7 +95,7 @@ export default function Page() {
               return
             }
 
-            router.replace('/')
+            router.replace('/');
           },
         })
       } else {
@@ -112,6 +111,17 @@ export default function Page() {
   setErrorMessage(message)
 }
   }, [isLoaded, signIn, setActive, router, code])
+// Clear error message after 4 seconds
+  React.useEffect(() => {
+  if (errorMessage) {
+
+    const timer = setTimeout(() => {
+      setErrorMessage('');
+    }, 5000); // 4 seconds
+
+    return () => clearTimeout(timer); // cleanup
+  }
+}, [errorMessage]);
 
   // Display email code verification form
   if (showEmailCode) {
@@ -137,10 +147,8 @@ export default function Page() {
         >
           <Text style={styles.buttonText}>Verify</Text>
         </Pressable>
-
-     
         
-            {errorMessage ? (<Text style={styles.errorText}>{errorMessage}</Text>) : null}
+            {errorMessage ? (<View style={styles.erroMessageContainer}><Text style={styles.errorText}>{errorMessage}</Text></View>) : null}
          
      
       </View>
@@ -150,7 +158,7 @@ export default function Page() {
   return (
     <View style={styles.container}>
       <Text  style={styles.title}>
-        Sign in
+        Sign in to your account
       </Text>
 
       <Image style={styles.image} source={require("@/assets/images/revenue-i2.png")} />
@@ -184,9 +192,9 @@ export default function Page() {
       >
         <Text style={styles.buttonText}>Sign in</Text>
       </Pressable>
-     
-        {errorMessage ? (<Text style={styles.errorText}>{errorMessage}</Text>) : null}
-   
+
+          {errorMessage ? (<View style={styles.erroMessageContainer}><Text style={styles.errorText}>{errorMessage}</Text></View>) : null}
+
       <View style={styles.linkContainer}>
         <Text style={styles.linkText}>Don't have an account? </Text>
         <Link href="/sign-up">
@@ -203,7 +211,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     gap: 10,
-    backgroundColor: 'red',
+    backgroundColor: 'orange',
     paddingTop: 100
   },
   title: {
@@ -257,7 +265,6 @@ const styles = StyleSheet.create({
 
    errorText: {
     color: "#4A148C",
-    marginLeft: 8,
     fontSize: 14,
   },
 
@@ -282,5 +289,15 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 
+  erroMessageContainer: {
+    height: "auto",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F8D7DA',
+    marginTop: 8,
+    borderLeftWidth: 25,
+    borderLeftColor: '#F44336',
+    padding: 5,
+  }
 
 })

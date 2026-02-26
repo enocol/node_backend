@@ -1,24 +1,47 @@
 import { Stack } from 'expo-router/stack'
-
+import { Image, View } from 'react-native'
 import { ClerkProvider } from '@clerk/clerk-expo'
 import { tokenCache } from '@clerk/clerk-expo/token-cache'
 import { StatusBar } from "react-native";
 
-
-
-
-export default function RootLayout() {
-
+export default function Layout() {
   return (
     <ClerkProvider tokenCache={tokenCache}>
-         <Stack>
-          <Stack.Screen name="(home)" options={{ headerShown: false }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+    <Stack
+      screenOptions={{
+        headerTransparent: true,
+        headerStyle: {
+          backgroundColor: '',
+        },
+        headerBackground: () => null,
+       
         
-        </Stack>
-        <StatusBar  />
 
-      </ClerkProvider>
+        // Remove default title
+        headerTitle: () => (
+          <View >
+            <Image
+              source={require('@/assets/images/wallet.png')}
+              style={{
+                width: "100%",
+                height: 40,
+                
+              }}
+            />
+          </View>
+        ),
+        headerTitleAlign: 'left',
+
+        // Put logo on the left
+        
+      }}
+    >
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          
+        
+    </Stack>
+     <StatusBar  />
+    </ClerkProvider>
   )
-  
 }
