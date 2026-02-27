@@ -1,9 +1,11 @@
 
-import { useSignUp } from '@clerk/clerk-expo'
-import { Link, useRouter } from 'expo-router'
 import * as React from 'react'
-import { Pressable, StyleSheet, TextInput, View, Text, Image} from 'react-native'
+import { Pressable, StyleSheet, TextInput, View, Text, Image, Keyboard} from 'react-native'
+import { Link, useRouter } from 'expo-router'
 import { MaterialIcons } from '@expo/vector-icons'
+import { useSignUp } from '@clerk/clerk-expo'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 
 export default function Page() {
   const { isLoaded, signUp, setActive } = useSignUp()
@@ -14,7 +16,23 @@ export default function Page() {
   const [pendingVerification, setPendingVerification] = React.useState(false)
   const [code, setCode] = React.useState('')
   const [errorMessage, setErrorMessage] = React.useState('')
+   const [keyboardVisible, setKeyboardVisible] = React.useState(false);
 
+
+  React.useEffect(() => {
+  const showSub = Keyboard.addListener("keyboardDidShow", () => {
+    setKeyboardVisible(true);
+  });
+
+  const hideSub = Keyboard.addListener("keyboardDidHide", () => {
+    setKeyboardVisible(false);
+  });
+
+  return () => {
+    showSub.remove();
+    hideSub.remove();
+  };
+}, []);
 
   // Clear error message after 5 seconds
 
@@ -106,6 +124,8 @@ export default function Page() {
 
   if (pendingVerification) {
     return (
+      <KeyboardAwareScrollView  contentContainerStyle={{ flexGrow: 1 }}
+     enableOnAndroid >
       <View style={styles.container}>
 
         {errorMessage ?
@@ -143,10 +163,13 @@ export default function Page() {
 
         
       </View>
+      </KeyboardAwareScrollView>
     )
   }
 
   return (
+    <KeyboardAwareScrollView  contentContainerStyle={{ flexGrow: 1, paddingTop: 70 }}
+     enableOnAndroid  scrollEnabled={keyboardVisible}>
     <View style={styles.container}>
 
   {errorMessage ?
@@ -206,6 +229,7 @@ export default function Page() {
         </Link>
       </View>
     </View>
+    </KeyboardAwareScrollView>
   )
 }
 

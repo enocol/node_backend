@@ -1,6 +1,6 @@
 import { useClerk } from '@clerk/clerk-expo'
 import { useRouter } from 'expo-router'
-import { Text, TouchableOpacity } from 'react-native'
+import { Text, TouchableOpacity, StyleSheet } from 'react-native'
 
 const SignOutButton = () => {
   // Use useClerk() to access the signOut() function
@@ -27,3 +27,11 @@ const SignOutButton = () => {
 }
 
 export default SignOutButton
+
+
+const styles = StyleSheet.create({
+  container: {
+    width: '50%',
+    alignItems: 'center',
+  }
+})

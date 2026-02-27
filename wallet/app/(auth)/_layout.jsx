@@ -14,11 +14,11 @@ function AuthRoutesLayout() {
 
    return (
     <Stack screenOptions={{
-      headerBackTitleVisible: false, // removes "Sign-in" text
+      headerBackTitleVisible: true, // removes "Sign-in" text
       headerTitle: "", // removes the header title
-      headerTransparent: false, // makes header transparent on iOS
+      headerTransparent: true, // makes header transparent on iOS
       headerStyle: {
-        backgroundColor: 'white', // makes the header background transparent
+        backgroundColor: "transparent", // makes the header background transparent
         elevation: 0, // removes shadow on Android
         shadowOpacity: 0, // removes shadow on iOS
       },

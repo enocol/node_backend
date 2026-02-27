@@ -18,14 +18,17 @@ export default function Page() {
   // console.log(session?.currentTask)
 
   return (
-    <SafeAreaView style={styles.container}>
-      
+   
+      <>
     
       {/* Show the sign-in and sign-up buttons when the user is signed out */}
-      <View style={styles.logoimageContainer}>
-        <Image source={require('@/assets/images/wallet.png')} style={styles.image} />
-      </View>
+      
        <SignedOut>
+        <View style={{flex: 1,alignItems: 'center', gap: 20}}>
+        <View style={styles.logoimageContainer}>
+            <Image source={require('@/assets/images/wallet.png')} style={styles.image} />
+        </View>
+
         <Image source={require('@/assets/images/revenue-i4.png')} style={styles.image} />
         <Pressable style={styles.signinButton} onPress={() => router.push('/sign-in')}>
          <AppText title="Sign in" />
@@ -34,36 +37,52 @@ export default function Page() {
         <Pressable style={styles.registerButton} onPress={() => router.push('/sign-up')}>
           <AppText title="Register"  />
         </Pressable>
+        </View>
       </SignedOut>
 
-      <View style={styles.signedInContainer}>
+     
         <SignedIn>
-          <Text>Hello {user?.emailAddresses[0].emailAddress}</Text>
-          <SignOutButton />
+           <View style={styles.signedInContainer}>
+              <View style={{padding: 10, gap: 150, width: '100%', alignItems: 'center',  flexDirection: "row" }}>
+                <Text style={styles.signedInText}>Hello {user?.firstName}</Text>
+                <SignOutButton />
+              </View>
+
+              <Image source={require('@/assets/images/revenue-i3.png')} style={styles.image} />
+          
+            
+                
+           
+          </View>
+          
         </SignedIn>
-      </View>
+     
 
      
 
    
-    </SafeAreaView>
+   </> 
   )
+  
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    alignItems: 'center',
-    flex: 1,
-    gap: 20,
+  // container: {
+  //   backgroundColor: 'white',
+  //   alignItems: 'center',
+  //   flex: 1,
+  //   gap: 20,
    
-  },
+  // },
 
   signedInContainer: {
    position: 'absolute',
    top: 50,
-   left: 20,
+   left: 0,
    flex: 1,
+   width: '100%',
+   height: "100%",
+   
     
   },
 
@@ -84,13 +103,13 @@ const styles = StyleSheet.create({
     
   },
 
-  // signinText: {
-  //   color: '#fff',
-  //   fontWeight: 'bold',
-  //   textAlign: 'center',
-  //   textTransform: 'uppercase',
-    
-  // },
+  signedInText: {
+  justifyContent: 'center',
+  alignItems: 'center',
+  color: 'black',
+  fontSize: 20,
+  fontWeight: 'bold',
+  },
 
   registerText: {
     color: '#fff',

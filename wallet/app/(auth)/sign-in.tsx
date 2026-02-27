@@ -1,21 +1,38 @@
+import * as React from 'react'
+import { Pressable, StyleSheet, TextInput, View, Text, Image, Keyboard  } from 'react-native'
+import { Link, useRouter } from 'expo-router'
+import { MaterialIcons } from "@expo/vector-icons";
 import { useSignIn } from '@clerk/clerk-expo'
 import type { EmailCodeFactor } from '@clerk/types'
-import { Link, useRouter } from 'expo-router'
-import * as React from 'react'
-import { Pressable, StyleSheet, TextInput, View, Text, Image, Platform } from 'react-native'
-import {appstyles} from "@/assets/styles/auth.styles"
-import { MaterialIcons } from "@expo/vector-icons";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 
 export default function Page() {
   const { signIn, setActive, isLoaded } = useSignIn()
   const router = useRouter()
 
+
+  const [keyboardVisible, setKeyboardVisible] = React.useState(false);
   const [emailAddress, setEmailAddress] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [code, setCode] = React.useState('')
   const [showEmailCode, setShowEmailCode] = React.useState(false)
   const [errorMessage, setErrorMessage] = React.useState('')
+
+  React.useEffect(() => {
+  const showSub = Keyboard.addListener("keyboardDidShow", () => {
+    setKeyboardVisible(true);
+  });
+
+  const hideSub = Keyboard.addListener("keyboardDidHide", () => {
+    setKeyboardVisible(false);
+  });
+
+  return () => {
+    showSub.remove();
+    hideSub.remove();
+  };
+}, []);
 
 
   // Handle the submission of the sign-in form
@@ -128,6 +145,9 @@ export default function Page() {
   // Display email code verification form
   if (showEmailCode) {
     return (
+      
+      <KeyboardAwareScrollView  contentContainerStyle={{ flexGrow: 1 }}
+     enableOnAndroid >
       <View style={styles.container}>
         {errorMessage ? (<View style={styles.erroMessageContainer}>
           
@@ -153,10 +173,14 @@ export default function Page() {
           <Text style={styles.buttonText}>Verify</Text>
         </Pressable>
       </View>
+      </KeyboardAwareScrollView>
     )
   }
 
   return (
+    
+    <KeyboardAwareScrollView  contentContainerStyle={{ flexGrow: 1, paddingTop: 70 }}
+     enableOnAndroid scrollEnabled={keyboardVisible}>
     <View style={styles.container}>
      {errorMessage ?
       (<View style={styles.erroMessageContainer}>
@@ -217,16 +241,17 @@ export default function Page() {
       </View>
       
     </View>
+    </KeyboardAwareScrollView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
+ container: {
     flex: 1,
     padding: 20,
     gap: 10,
-    
   },
+
   title: {
     fontSize: 30,
     textAlign: 'center',
@@ -306,7 +331,7 @@ const styles = StyleSheet.create({
 
   erroMessageContainer: {
     height: "auto",
-    justifyContent: 'center',
+    // justifyContent: 'center',
     marginTop: 8,
     borderLeftWidth: 25,
     borderLeftColor: '#F44336',
@@ -317,10 +342,10 @@ const styles = StyleSheet.create({
   },
 
   errorIconContainer: {
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
     paddingRight: 6,
-    marginLeft: 10, // Adjust this value to position the icon closer to the left border
+    marginLeft: 4, // Adjust this value to position the icon closer to the left border
   },
   
 
