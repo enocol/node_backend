@@ -19,7 +19,6 @@ export async function getTransactionsById (req, res){
 
 
 export async function deleteTransaction (req, res ){
- 
       try {
         const { id } = req.params;
     
@@ -29,43 +28,36 @@ export async function deleteTransaction (req, res ){
       return res.status(400).json({ message: "ID must be an integer" });
     }
     
-        const result = await sql`
-          DELETE FROM transactions
-          WHERE id = ${id}
-          RETURNING *
-        `;
-    
-        if (result.length === 0) {
-          return res.status(404).json({ message: "Transaction not found" });
-        }
-    
-        return res.status(200).json({
-          message: "Transaction deleted successfully",
-        });
-    
-      } catch (error) {
-        return res.status(500).json({
-          message: "Error deleting transaction",
-        });
-      }
+    const result = await sql`
+      DELETE FROM transactions
+      WHERE id = ${idNumber}
+      RETURNING *
+    `;
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: "Transaction not found" });
+    }
+
+    return res.status(200).json({
+      message: "Transaction deleted successfully",
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error deleting transaction",
+    });
+  }
     
 }
 
 
 
 export async function getTransactionSummary (req, res){
-
-   
   try {
     const { userId } = req.params;
 
-    const idNumber = Number(userId);
-    if (!Number.isInteger(idNumber)) {
-      return res.status(400).json({ message: "Invalid user ID" });
-    }
-
     const user = await sql`
-      SELECT user_id FROM transactions WHERE user_id = ${idNumber}
+      SELECT user_id FROM transactions WHERE user_id = ${userId}
     `;
 
     if (user.length === 0) {
@@ -77,7 +69,7 @@ export async function getTransactionSummary (req, res){
         COALESCE(SUM(CASE WHEN amount > 0 THEN amount ELSE 0 END), 0) AS total_income,
         COALESCE(ABS(SUM(CASE WHEN amount < 0 THEN amount ELSE 0 END)), 0) AS total_expense
       FROM transactions
-      WHERE user_id = ${idNumber}
+      WHERE user_id = ${userId}
     `;
 
     return res.status(200).json({

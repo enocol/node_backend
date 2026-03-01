@@ -22,7 +22,7 @@ function AuthRoutesLayout() {
         elevation: 0, // removes shadow on Android
         shadowOpacity: 0, // removes shadow on iOS
       },
-      headerShadowVisible: false,
+      headerShadowVisible: true,
       headerBackground: () => null, // removes the header background
       headerLeft: Platform.OS === 'ios' ? () => (
         <Pressable onPress={() => router.back()} style={styles.backArrow}>

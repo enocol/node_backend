@@ -3,19 +3,37 @@ import AppText from './components/appText'
 
 import { SignedIn, SignedOut, useSession, useUser } from '@clerk/clerk-expo'
 import { useRouter } from 'expo-router'
-import React from 'react'
+import React, { use, useEffect } from 'react'
 import { StyleSheet, Text, View, Pressable, Image } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context';
+import useTransactions  from '../hooks/useTransactions'
 
 export default function Page() {
   const { user } = useUser()
   const router = useRouter()
 
+
+ const { transactions, summary, isLoading, loadData, deleteTransaction } = useTransactions(user?.id)
+  useEffect(() => {
+    if(user?.id) {
+      loadData()
+    }
+
+  }, [user?.id])
+ 
+ 
+
+
+
+
   // If your user isn't appearing as signed in,
   // it's possible they have session tasks to complete.
   // Learn more: https://clerk.com/docs/guides/configure/session-tasks
   // const { session } = useSession()
-  // console.log(session?.currentTask)
+  // console.log(session?.currentTask)  
+
+  
+
+ 
 
   return (
    
@@ -45,16 +63,14 @@ export default function Page() {
            <View style={styles.signedInContainer}>
               <View style={{padding: 10, gap: 150, width: '100%', alignItems: 'center',  flexDirection: "row" }}>
                 <Text style={styles.signedInText}>Hello {user?.firstName}</Text>
+               
                 <SignOutButton />
               </View>
 
               <Image source={require('@/assets/images/revenue-i3.png')} style={styles.image} />
-          
+               <Text style={styles.signedInText}>Your balance is ${summary?.balance}</Text>
+            </View>
             
-                
-           
-          </View>
-          
         </SignedIn>
      
 
